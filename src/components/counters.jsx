@@ -10,14 +10,27 @@ class counters extends Component {
             {id: 3, value: 5},
             {id: 4, value: 7}
         ]
-     }
+     };
+
+    //  this method is our event handler
+    handleDelete = (counterId) => {
+        const counters = this.state.counters.filter(c => c.id !== counterId);
+        this.setState({counters});
+    };
+
+    handleReset = () => {
+        const counters = this.state.counters.map(c => {c.value = 0; return c;});
+        this.setState({ counters })
+    }
+
     render() {
         return (
             <div>
+                <button onClick={(this.handleReset)} className='btn btn-primary btn-sm'>Reset</button>
                 {/* key attribute is how we uniquley identify that component  */}
                 {this.state.counters.map(counter => (
-                <Counter key={counter.id} value={counter.value} selected={true}>
-                    <h4 style={{marginLeft:"15%"}}>Title</h4>
+                <Counter key={counter.id} onDelete={this.handleDelete} counter={counter}  >
+                    <h4 style={{marginLeft:"15%"}}>Title #{counter.id}</h4>
                 </Counter>))}
             </div>
             
